@@ -22,12 +22,14 @@ public class SpaceShip : SpaceObject {
 	// Use this for initialization
 	protected override void Start () {
         start_position = transform.position;
+        isDamagedYet = false;
 	}
 
     public override bool Damage()
-    {        
+    {
         transform.position = start_position;
-        ObjectDestroyed(GetType());
+        StartCoroutine(Wait());
+        ObjectDestroyed(GetType(),0);
         objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
         return true;
     }
@@ -36,8 +38,23 @@ public class SpaceShip : SpaceObject {
     {     
         if (Owner != transform)
         {
+            isDamagedYet = true;
             return Damage();
         }
         return false;
+    }
+
+    IEnumerator Wait()
+    {
+        collider2D.enabled = false;
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        MonoBehaviour[] allmonos = GetComponentsInChildren<MonoBehaviour>();
+        System.Array.ForEach(allmonos, am => am.enabled = false);
+        System.Array.ForEach(renderers, r => r.enabled = false);
+        yield return new WaitForSeconds(2f);
+        collider2D.enabled = true;
+        renderer.enabled = true;
+        System.Array.ForEach(allmonos, am => am.enabled = true);
+        System.Array.ForEach(renderers, r => r.enabled = true);
     }
 }

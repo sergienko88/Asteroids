@@ -19,7 +19,7 @@ public class UFO : SpaceObject{
     }
 	// Use this for initialization
 	void Start () {
-	
+        RewardPoints = 50;
 	}
 	
 	// Update is called once per frame
@@ -29,7 +29,7 @@ public class UFO : SpaceObject{
 
     public override bool Damage()
     {
-        ObjectDestroyed(GetType());
+        ObjectDestroyed(GetType(),RewardPoints);
         objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
         Destroy(gameObject);
         return true;
@@ -37,8 +37,9 @@ public class UFO : SpaceObject{
 
     public override bool Damage(Transform Owner)
     {
-        if (Owner.GetComponent<SpaceShip>())
+        if (Owner.GetComponent<SpaceShip>()&&!isDamagedYet)
         {
+           isDamagedYet = true;
            return Damage();
         }
         return false;

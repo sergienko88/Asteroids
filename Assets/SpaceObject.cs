@@ -5,7 +5,8 @@ public class SpaceObject : MonoBehaviour {
 
     static int objectCount = 0;
     static int maxObjectCount = 0;
-
+    protected int RewardPoints = 0;
+    protected bool isDamagedYet = false;
     public virtual int ObjectCount
     {
         get { return SpaceObject.objectCount; }
@@ -19,10 +20,10 @@ public class SpaceObject : MonoBehaviour {
     }
 
 
-    public static System.Action<System.Type> ObjectDestroyed;
+    public static System.Action<System.Type,int> ObjectDestroyed;
     static SpaceObject()
     {
-        ObjectDestroyed += (type) => { };
+        ObjectDestroyed += (type,points) => { };
     }
 
 	// Use this for initialization
@@ -38,13 +39,15 @@ public class SpaceObject : MonoBehaviour {
 
     public virtual bool Damage()
     {
-        ObjectDestroyed(GetType());
+        ObjectDestroyed(GetType(),0);
         objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
+        isDamagedYet = true;
         return true;
     }
 
     public virtual bool Damage(Transform Owner)
     {
+        isDamagedYet = true;
         return true;
     }
 }

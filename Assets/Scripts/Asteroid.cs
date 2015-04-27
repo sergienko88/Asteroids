@@ -7,7 +7,7 @@ public class Asteroid : SpaceObject
     int life = 2;
     Vector3 movedir = Vector3.zero;
     bool isFragment = false;
-
+    
     public static int objectCount = 0;
     public static int maxObjectCount = 20;
 
@@ -26,6 +26,7 @@ public class Asteroid : SpaceObject
 
 	protected override void Start(){
         base.Start();
+        RewardPoints = 20;
         movedir = (Vector3)(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)));
 	}
 	// Update is called once per frame
@@ -41,8 +42,12 @@ public class Asteroid : SpaceObject
 		}
         if (!isFragment)
         {
-            ObjectDestroyed(GetType());
+            ObjectDestroyed(GetType(),RewardPoints);
             objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
+        }
+        else
+        {
+            ObjectDestroyed(typeof(SpaceObject), (int)RewardPoints/2);
         }
 		Destroy(gameObject);
         return true;
@@ -50,8 +55,9 @@ public class Asteroid : SpaceObject
 
     public override bool Damage(Transform owner)
     {        
-        if (owner.GetComponent<SpaceShip>())
-        {           
+        if (owner.GetComponent<SpaceShip>()&&!isDamagedYet)
+        {
+           isDamagedYet = true;
            return Damage();            
         }
         return false;
