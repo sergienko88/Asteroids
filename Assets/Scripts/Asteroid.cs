@@ -9,7 +9,7 @@ public class Asteroid : SpaceObject
     bool isFragment = false;
 
     public static int objectCount = 0;
-    public static int maxObjectCount = 6;
+    public static int maxObjectCount = 20;
 
     public override int ObjectCount
     {

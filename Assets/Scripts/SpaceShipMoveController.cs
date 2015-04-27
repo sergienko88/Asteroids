@@ -13,7 +13,7 @@ public class SpaceShipMoveController : MoveController
     override protected void Update()
     {
         if (MoveType != global::MoveType.Math) return;
-        Debug.DrawRay(transform.position, transform.up);
+        //Debug.DrawRay(transform.position, transform.up);
         base.Update();
 
         if (Input.GetKey(KeyCode.A))
@@ -41,7 +41,7 @@ public class SpaceShipMoveController : MoveController
 
         
         transform.position += inertion_direction * inertion+ move_direction*acceleration;
-        Debug.DrawRay(transform.position, (inertion_direction * inertion + move_direction * acceleration)*300f, Color.red);
+        //Debug.DrawRay(transform.position, (inertion_direction * inertion + move_direction * acceleration)*300f, Color.red);
         //CheckSpaceCameraBorder();
     }
 

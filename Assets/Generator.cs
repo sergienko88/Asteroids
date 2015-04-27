@@ -10,17 +10,29 @@ public class Generator : MonoBehaviour {
         Spawn += SpawnObject;        
         SpaceObject.ObjectDestroyed += Spawn;
         ObjectPrafabs = Resources.LoadAll<SpaceObject>("Prefabs");
+        Create(typeof(Asteroid), Random.Range(10, 15));
+        StartCoroutine(Waiter(Random.Range(10f, 60f), null, () =>
+        {
+            Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
+        }));
 	}
 
     void SpawnObject(System.Type type)
     {
         if (type == typeof(Asteroid))
         {
-            Create(type,UnityEngine.Random.Range(1,Asteroid.maxObjectCount));
+            float rnd = Random.value;
+            if ((rnd < .3f && (float)Asteroid.objectCount <Asteroid.maxObjectCount*.6f)|| (Asteroid.objectCount <Asteroid.maxObjectCount*.3f) )
+            {
+                Create(type,(int) UnityEngine.Random.Range(1, (int)Asteroid.maxObjectCount*.5f));
+            }
         }
         if (type == typeof(UFO))
         {
-
+            StartCoroutine(Waiter(Random.Range(10f, 20f), null, () =>
+            {
+                Create(type, UnityEngine.Random.Range(1,3));
+            }));
         }
     }
 
@@ -53,6 +65,7 @@ public class Generator : MonoBehaviour {
         
         
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))
@@ -60,5 +73,14 @@ public class Generator : MonoBehaviour {
             Create(typeof(Asteroid),5);
             Create(typeof(UFO), 2);
         }
+    }
+
+    IEnumerator Waiter(float duration, System.Action do_before, System.Action do_after)
+    {
+        do_before += () => { };
+        do_after += () => { };
+        do_before();
+        yield return new WaitForSeconds(duration);
+        do_after();
     }
 }
