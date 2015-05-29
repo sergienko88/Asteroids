@@ -50,19 +50,19 @@ public class SpaceShipMoveController : MoveController
         if (MoveType != global::MoveType.Physic) return;
         if (Input.GetKey(KeyCode.A))
         {
-            rigidbody2D.MoveRotation(rigidbody2D.rotation + rotate_speed * Time.fixedDeltaTime);
+            GetComponent<Rigidbody2D>().MoveRotation(GetComponent<Rigidbody2D>().rotation + rotate_speed * Time.fixedDeltaTime);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            rigidbody2D.MoveRotation(rigidbody2D.rotation - rotate_speed * Time.fixedDeltaTime);
+            GetComponent<Rigidbody2D>().MoveRotation(GetComponent<Rigidbody2D>().rotation - rotate_speed * Time.fixedDeltaTime);
         }
 
         if (Input.GetKey(KeyCode.W))
         {
-            rigidbody2D.AddForce(transform.up );            
+            GetComponent<Rigidbody2D>().AddForce(transform.up );            
         }
-        Debug.DrawRay(transform.position, rigidbody2D.velocity);
+        Debug.DrawRay(transform.position, GetComponent<Rigidbody2D>().velocity);
         //CheckSpaceCameraBorder();
     }
 }

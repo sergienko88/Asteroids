@@ -46,14 +46,14 @@ public class SpaceShip : SpaceObject {
 
     IEnumerator Wait()
     {
-        collider2D.enabled = false;
+        GetComponent<Collider2D>().enabled = false;
         Renderer[] renderers = GetComponentsInChildren<Renderer>();
         MonoBehaviour[] allmonos = GetComponentsInChildren<MonoBehaviour>();
         System.Array.ForEach(allmonos, am => am.enabled = false);
         System.Array.ForEach(renderers, r => r.enabled = false);
         yield return new WaitForSeconds(2f);
-        collider2D.enabled = true;
-        renderer.enabled = true;
+        GetComponent<Collider2D>().enabled = true;
+        GetComponent<Renderer>().enabled = true;
         System.Array.ForEach(allmonos, am => am.enabled = true);
         System.Array.ForEach(renderers, r => r.enabled = true);
     }

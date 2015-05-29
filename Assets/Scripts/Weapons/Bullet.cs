@@ -24,8 +24,8 @@ public class Bullet : MonoBehaviour {
                      if (!gameObject.GetComponent<Rigidbody2D>())
                      {
                          gameObject.AddComponent<Rigidbody2D>();
-                         gameObject.rigidbody2D.isKinematic = true;
-                         gameObject.rigidbody2D.gravityScale = 0;
+                         gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+                         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
                      }
                  }
              ));

@@ -27,9 +27,9 @@ public class Weapon : MonoBehaviour {
             Destroy(gun_muzzle.GetComponent<SphereCollider>());
             gun_muzzle.parent = transform;
             gun_muzzle.position = new Vector3(
-                transform.GetChild(0).renderer.bounds.center.x,
-                transform.GetChild(0).renderer.bounds.max.y,
-                transform.GetChild(0).renderer.bounds.center.z
+                transform.GetChild(0).GetComponent<Renderer>().bounds.center.x,
+                transform.GetChild(0).GetComponent<Renderer>().bounds.max.y,
+                transform.GetChild(0).GetComponent<Renderer>().bounds.center.z
             );
             WeaponMazzles.Add(gun_muzzle);
             WeaponMazzles.ForEach(wm => wm.name = WeaponType.ToString() + "Muzzle");
