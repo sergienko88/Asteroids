@@ -8,7 +8,11 @@ public class UFOWeaponController : WeaponController {
     Transform target = null;
 	// Use this for initialization
 	void Start () {
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject playerShip = GameObject.FindGameObjectWithTag("Player");
+        if (playerShip)
+        {
+            target = playerShip.transform;
+        }
         weapons.Add(gameObject.AddComponent<Gun>());
         selected_weapon_index = 0;
         System.Array.ForEach(transform.root.GetComponentsInChildren<WeaponMuzzle>(),m=>{
@@ -25,12 +29,13 @@ public class UFOWeaponController : WeaponController {
             l.x = 0;
             l.y = 0;
             muzzles.ForEach(m => m.rotation=l);
+            random = Random.value;
+            if (random < shot_rate)
+            {
+                weapons.ForEach(w => w.Shot());
+            }
         }
-        random = Random.value;
-        if (random < shot_rate)
-        {            
-            weapons.ForEach(w => w.Shot());
-        }
+       
     }
 	
 

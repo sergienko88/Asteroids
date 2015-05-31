@@ -7,7 +7,11 @@ public class UFOMoveController : MoveController {
 	// Use this for initialization
 	override protected void Start () {
         base.Start();
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        GameObject playerShip = GameObject.FindGameObjectWithTag("Player");
+        if (playerShip)
+        {
+            target = playerShip.transform;
+        }
         speed = .003f;
         rotate_speed = 500f;
         min_distance_to_target = Random.Range(2f, 5f);
