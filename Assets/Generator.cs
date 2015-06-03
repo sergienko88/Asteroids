@@ -5,16 +5,20 @@ public class Generator : MonoBehaviour {
     SpaceObject[] ObjectPrafabs = new SpaceObject[0];    
     System.Action<System.Type,int>Spawn;
     Vector3 centerPosition = new Vector3();
+    public bool isTest = false;
 	// Use this for initialization
 	void Start () {
         Spawn += SpawnObject;        
         SpaceObject.ObjectDestroyed += Spawn;
         ObjectPrafabs = Resources.LoadAll<SpaceObject>("Prefabs");
-        //Create(typeof(Asteroid), Random.Range(10, 15));
-        //StartCoroutine(Waiter(Random.Range(10f, 60f), null, () =>
-        //{
-        //    Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
-        //}));
+        if (!isTest)
+        {
+            Create(typeof(Asteroid), Random.Range(10, 15));
+            StartCoroutine(Waiter(Random.Range(10f, 60f), null, () =>
+            {
+                Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
+            }));
+        }
 	}
 
     void SpawnObject(System.Type type,int val=0)
