@@ -5,7 +5,8 @@ public class SpaceShip : SpaceObject {
 
     static int objectCount = 0;
     static int maxObjectCount = 1;
-
+    Vector3 start_position = Vector3.zero;
+    
     public virtual int ObjectCount
     {
         get { return SpaceShip.objectCount; }
@@ -18,11 +19,14 @@ public class SpaceShip : SpaceObject {
         set { SpaceShip.maxObjectCount = value; }
     }
 
-    Vector3 start_position = Vector3.zero;
 	// Use this for initialization
 	protected override void Start () {
         start_position = transform.position;
         isDamagedYet = false;
+        GameManager.GamePlay += (state) =>
+        {
+            gameObject.SetActive(state);
+        };
 	}
 
     public override bool Damage()
@@ -53,7 +57,6 @@ public class SpaceShip : SpaceObject {
         System.Array.ForEach(renderers, r => r.enabled = false);
         yield return new WaitForSeconds(2f);
         GetComponent<Collider2D>().enabled = true;
-        GetComponent<Renderer>().enabled = true;
         System.Array.ForEach(allmonos, am => am.enabled = true);
         System.Array.ForEach(renderers, r => r.enabled = true);
     }

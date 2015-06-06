@@ -15,7 +15,7 @@ public class GraphicChanger : MonoBehaviour {
     Sprite sprite;
 	// Use this for initialization
 	void Start () {
-        GameManager.ChangeGraphic += ChangeGraphicType;
+        GameManager.ChangeGraphicEvent += ChangeGraphicType;
         Transform[] children = GetComponentsInChildren<Transform>(true);
         GraphicObjects = new Dictionary<GraphicType, Transform>();
         
@@ -65,6 +65,6 @@ public class GraphicChanger : MonoBehaviour {
     
     void OnDestroy()
     {        
-        GameManager.ChangeGraphic -= ChangeGraphicType;
+        GameManager.ChangeGraphicEvent -= ChangeGraphicType;
     }
 }

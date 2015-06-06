@@ -9,18 +9,26 @@ public class Bullet : MonoBehaviour {
     bool isMoved = true;
     Transform owner = null;
 	// Use this for initialization
+
+    void Awake()
+    {
+        Destroy(gameObject.GetComponent<SphereCollider>());
+    }
+
 	void Start () {        
         start_position = transform.position;
         isMoved = transform.name != "Bullet_prefab";
         if (isMoved) gameObject.AddComponent<SpaceEndlessWrapper>();
         StartCoroutine(WaitEndFrameAndDo(() =>
-        {
-            Destroy(gameObject.GetComponent<SphereCollider>());
-        },
+                {
+                    Destroy(gameObject.GetComponent<SphereCollider>());
+                },
                  () =>
                  {
                      if (!gameObject.GetComponent<CircleCollider2D>())
+                     {
                          gameObject.AddComponent<CircleCollider2D>().isTrigger = true;
+                     }
                      if (!gameObject.GetComponent<Rigidbody2D>())
                      {
                          gameObject.AddComponent<Rigidbody2D>();

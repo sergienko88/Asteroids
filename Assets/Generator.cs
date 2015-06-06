@@ -51,20 +51,20 @@ public class Generator : MonoBehaviour {
       
       if (spawnIndex != -1)
       {         
-              GameObject spawnObject;
-              for (int i = 0; i < quantity; i++)
-              {
-                  if (ObjectPrafabs[spawnIndex].ObjectCount < ObjectPrafabs[spawnIndex].MaxObjectCount)
-                  {
-                      spawnObject = (GameObject)Instantiate(ObjectPrafabs[spawnIndex].gameObject);
-                      Vector2 randomPointOnCircle = Random.insideUnitCircle * 3f;
-                      randomPointOnCircle.Normalize();
-                      randomPointOnCircle *= Random.Range(1f, 10f);
-                      Vector3 newPosition = new Vector3(randomPointOnCircle.x, randomPointOnCircle.y, centerPosition.z);
-                      spawnObject.transform.position += newPosition;
-                      ObjectPrafabs[spawnIndex].ObjectCount = Mathf.Clamp(++ObjectPrafabs[spawnIndex].ObjectCount, 0, ObjectPrafabs[spawnIndex].MaxObjectCount);                  
-                  }
-              }
+        GameObject spawnObject;
+        for (int i = 0; i < quantity; i++)
+        {
+            if (ObjectPrafabs[spawnIndex].ObjectCount < ObjectPrafabs[spawnIndex].MaxObjectCount)
+            {
+                spawnObject = (GameObject)Instantiate(ObjectPrafabs[spawnIndex].gameObject);
+                Vector2 randomPointOnCircle = Random.insideUnitCircle * 3f;
+                randomPointOnCircle.Normalize();
+                randomPointOnCircle *= Random.Range(1f, 10f);
+                Vector3 newPosition = new Vector3(randomPointOnCircle.x, randomPointOnCircle.y, centerPosition.z);
+                spawnObject.transform.position += newPosition;
+                ObjectPrafabs[spawnIndex].ObjectCount = Mathf.Clamp(++ObjectPrafabs[spawnIndex].ObjectCount, 0, ObjectPrafabs[spawnIndex].MaxObjectCount);                  
+            }
+        }
       }
         
         
