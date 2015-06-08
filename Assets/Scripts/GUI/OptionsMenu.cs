@@ -10,6 +10,14 @@ public class OptionsMenu : MenuGUI {
             parent.SetActive(!state); 
             gameObject.SetActive(state);
         };
+
+        GameManager.PauseAction += (state) =>
+        {
+            if (!state)
+            {
+                gameObject.SetActive(false);
+            }
+        };
         gameObject.SetActive(false);
 	}
 }

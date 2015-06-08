@@ -12,6 +12,7 @@ public class SpaceShipMoveController : MoveController
 	// Update is called once per frame
     override protected void Update()
     {
+        if (Time.timeScale == 0f) return;
         if (MoveType != global::MoveType.Math) return;
         //Debug.DrawRay(transform.position, transform.up);
         base.Update();

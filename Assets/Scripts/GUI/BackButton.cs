@@ -13,7 +13,7 @@ public class BackButton : ElementGUI
         {
             if (menu)
             {
-                menu.lastMenu.SetActive(true);
+                if(menu.lastMenu) menu.lastMenu.SetActive(true);
                 menu.gameObject.SetActive(false);
             }
             else

@@ -19,6 +19,7 @@ public class UFOMoveController : MoveController {
 
 	// Update is called once per frame
 	override protected void Update () {
+        if (Time.timeScale == 0f) return;
         if (!target) return;
         base.Update();
         acceleration += Time.deltaTime * speed;

@@ -23,6 +23,7 @@ public class MoveController : MonoBehaviour {
 	
 	// Update is called once per frame
 	virtual protected void Update () {
+        if (Time.timeScale == 0f) return;
         if (MoveType != global::MoveType.Math) return;
         acceleration -= Time.deltaTime * speed / 2f;
         if (acceleration < 0)
