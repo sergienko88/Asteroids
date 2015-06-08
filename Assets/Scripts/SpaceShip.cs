@@ -56,6 +56,12 @@ public class SpaceShip : SpaceObject {
         System.Array.ForEach(allmonos, am => am.enabled = false);
         System.Array.ForEach(renderers, r => r.enabled = false);
         yield return new WaitForSeconds(2f);
+        Collider2D[] objs = Physics2D.OverlapCircleAll((Vector2)transform.position,2f);
+        for (int i = 0; i < objs.Length; i++)
+        {            
+            Destroy(objs[i].gameObject);
+        }
+        yield return new WaitForEndOfFrame();
         GetComponent<Collider2D>().enabled = true;
         System.Array.ForEach(allmonos, am => am.enabled = true);
         System.Array.ForEach(renderers, r => r.enabled = true);

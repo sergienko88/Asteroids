@@ -3,12 +3,11 @@ using System.Collections;
 
 public class SpaceShipMoveController : MoveController
 {
-   
-	// Use this for initialization
-	void Start () {
-        //base.Start();
-	}
-	
+
+    protected override void Start()
+    {
+        base.Start();
+    }
 	// Update is called once per frame
     override protected void Update()
     {
@@ -39,11 +38,8 @@ public class SpaceShipMoveController : MoveController
             inertion_direction = transform.up;
             acceleration = 0;            
         }
-
-        
+       
         transform.position += inertion_direction * inertion+ move_direction*acceleration;
-        //Debug.DrawRay(transform.position, (inertion_direction * inertion + move_direction * acceleration)*300f, Color.red);
-        //CheckSpaceCameraBorder();
     }
 
     override protected void FixedUpdate()

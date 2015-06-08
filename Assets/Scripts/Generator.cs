@@ -19,6 +19,31 @@ public class Generator : MonoBehaviour {
                 Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
             }));
         }
+        GameManager.GamePlay += (state) =>
+        {
+            switch (state)
+            {
+                case true:
+                    if (!isTest){
+                        System.Array.ForEach(GameObject.FindObjectsOfType<SpaceObject>(), so => {
+                            if(!(so is SpaceShip)){
+                                Destroy(so.gameObject);
+                            } 
+                        }); 
+                        Create(typeof(Asteroid), Random.Range(10, 15));
+                        StartCoroutine(Waiter(Random.Range(10f, 60f), null, () =>
+                        {
+                            Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
+                        }));
+                    }
+                break;
+
+                case false: break;
+
+                default:
+                break;
+            }
+        };
 	}
 
     void SpawnObject(System.Type type,int val=0)
@@ -57,11 +82,23 @@ public class Generator : MonoBehaviour {
             if (ObjectPrafabs[spawnIndex].ObjectCount < ObjectPrafabs[spawnIndex].MaxObjectCount)
             {
                 spawnObject = (GameObject)Instantiate(ObjectPrafabs[spawnIndex].gameObject);
-                Vector2 randomPointOnCircle = Random.insideUnitCircle * 3f;
+                Vector2 randomPointOnCircle = Random.insideUnitCircle * 3f;             
                 randomPointOnCircle.Normalize();
                 randomPointOnCircle *= Random.Range(1f, 10f);
                 Vector3 newPosition = new Vector3(randomPointOnCircle.x, randomPointOnCircle.y, centerPosition.z);
-                spawnObject.transform.position += newPosition;
+                spawnObject.transform.position = centerPosition + newPosition;
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player)
+                {
+                    while (Vector3.Distance(spawnObject.transform.position, player.transform.position) < 5f)
+                    {
+                        randomPointOnCircle = Random.insideUnitCircle * 3f;
+                        randomPointOnCircle.Normalize();
+                        randomPointOnCircle *= Random.Range(1f, 10f);
+                        newPosition = new Vector3(randomPointOnCircle.x, randomPointOnCircle.y, centerPosition.z);
+                        spawnObject.transform.position = centerPosition + newPosition;
+                    }
+                }
                 ObjectPrafabs[spawnIndex].ObjectCount = Mathf.Clamp(++ObjectPrafabs[spawnIndex].ObjectCount, 0, ObjectPrafabs[spawnIndex].MaxObjectCount);                  
             }
         }

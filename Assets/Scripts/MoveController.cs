@@ -15,6 +15,8 @@ public class MoveController : MonoBehaviour {
     protected Vector3 move_direction = Vector3.zero;
     protected Vector3 inertion_direction = Vector3.zero;
     public MoveType MoveType = MoveType.Math;
+    protected float max_acceleration = 0.05f;
+    protected float max_inertion = 0.05f;
 	// Use this for initialization
     virtual protected void Start()
     {
@@ -30,16 +32,32 @@ public class MoveController : MonoBehaviour {
         {
             acceleration = 0;
         }
-        
+
+        if (acceleration >= max_acceleration)
+        {
+            acceleration = max_acceleration;
+        }
+
         inertion -= Time.deltaTime * speed / 2f;
         if (inertion < 0)
         {
             inertion = 0;
+        }
+
+        if (inertion >=max_inertion)
+        {
+            inertion = max_inertion;
         }
 	}
 
     virtual protected void FixedUpdate()
     {
         if (MoveType != global::MoveType.Physic) return;
+    }
+
+    void OnEnable()
+    {
+        acceleration = 0;
+        inertion = 0;
     }
 }
