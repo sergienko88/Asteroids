@@ -33,8 +33,8 @@ public class GraphicChanger : MonoBehaviour {
                     }
                     texture = (Texture2D)children[i].GetComponent<Renderer>().material.mainTexture;
                     sprite = Sprite.Create(
-                        (Texture2D)children[i].GetComponent<Renderer>().material.GetTexture("_MainTex"),
-                        new Rect(0, 0, children[i].GetComponent<Renderer>().material.mainTexture.width, children[i].GetComponent<Renderer>().material.mainTexture.height),
+                        (texture ? texture : new Texture2D(1, 1)),
+                        new Rect(0, 0, texture ? texture.width : 5, texture?texture.height:30),
                         new Vector2(0.5f, 0.5f)
                     );
                 }
