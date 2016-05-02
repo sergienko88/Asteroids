@@ -5,9 +5,8 @@ public class GamePlayMenu : MenuGUI {
 
 	// Use this for initialization
 	void Start () {
-        GameManager.PauseAction += (state) =>
-        {            
-            gameObject.SetActive(state);
+        GameManager.ChangeGameStatus += (state) => {
+            gameObject.SetActive(state == GameState.Pause);
         };
         gameObject.SetActive(false);
 	}

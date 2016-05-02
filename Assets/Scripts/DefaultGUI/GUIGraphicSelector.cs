@@ -18,7 +18,7 @@ public class GUIGraphicSelector : ElementGUI {
         PressAction += () => {
             if (GameManager.GraphicType != type)
             {
-                GameManager.ChangeGraphic(type);             
+                GameManager.instance.ChangeGraphic(type);             
             }
         };
     }

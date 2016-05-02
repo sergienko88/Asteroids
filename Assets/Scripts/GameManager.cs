@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum GameState { 
+    MainMenu,
+    Play,
+    Pause
+}
+
 public class GameManager : MonoBehaviour {
 
     static int score = 0;
@@ -25,40 +31,49 @@ public class GameManager : MonoBehaviour {
         set { GameManager.currentHealth = value; UpdateHealth(value); }
     }
 
+    public GameState GameStatus
+    {
+        get
+        {
+            return gameStatus;
+        }
+
+        set
+        {
+            gameStatus = value;
+            ChangeGameStatus(value);
+            switch (value)
+            {
+                case GameState.MainMenu:
+                    Time.timeScale = 1;
+                break;
+
+                case GameState.Play:
+                    Time.timeScale = 1;
+                break;
+
+                case GameState.Pause:
+                    Time.timeScale = 0;
+                break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
     public static System.Action<int> UpdateScore;
     public static System.Action<int> UpdateHealth;
     public static System.Action<GraphicType> ChangeGraphicEvent;
     public static GraphicType GraphicType = global::GraphicType.Mesh;
-    static bool isGame = false;
-    static bool isPause = false;
-   
-    public static bool IsGame
-    {
-        get { return GameManager.isGame; }
-        set {
-            GameManager.isGame = value;            
-        }
-    }
-
-    public static bool IsPause
-    {
-        get { return GameManager.isPause; }
-        set {
-            GameManager.isPause = value;
-        }
-    }
-
-    public static System.Action<bool> GamePlay;
-    public static System.Action<bool> PauseAction;
-
-    static GameManager()
-    {
-        GamePlay += (state) => { GameManager.IsGame = state; };
-        PauseAction += (state) => { GameManager.IsPause = state; Time.timeScale = state ? 0 : 1; };
-    }
+    GameState gameStatus = GameState.MainMenu;
+    public static GameManager instance = null;
+    public static System.Action<GameState> ChangeGameStatus;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+        instance = this;
+        ChangeGameStatus+=(status)=>{ };
         UpdateScore += (score) => { };
         UpdateHealth += (health) => { };
         ChangeGraphicEvent += (types) => { };
@@ -85,18 +100,21 @@ public class GameManager : MonoBehaviour {
         CurrentHealth = Health;
         UpdateHealth(CurrentHealth);
         UpdateScore(Score);
-        ChangeGraphicEvent(GraphicType);
-        PauseAction(false);
-        GamePlay(false);
+        ChangeGraphicEvent(GraphicType);    
 	}
 
-    public static void ChangeGraphic(GraphicType toType)
+    public void ChangeGraphic(GraphicType toType)
     {
         ChangeGraphicEvent(toType);
         GraphicType = toType;
     }
-	// Update is called once per frame
-	void Update () {
+    public void ChangeGraphic(int type)
+    {
+        ChangeGraphicEvent((GraphicType)type);
+        GraphicType = (GraphicType)type;
+    }
+    // Update is called once per frame
+    void Update () {
         if (Input.GetKeyDown(KeyCode.G))
         {
             GraphicType tmp = GraphicType == global::GraphicType.Mesh ? global::GraphicType.Sprite : global::GraphicType.Mesh;
@@ -105,8 +123,26 @@ public class GameManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!IsGame) return;
-            PauseAction( IsPause ? false : true);
+            switch (GameStatus)
+            {
+                case GameState.MainMenu:
+                break;
+
+                case GameState.Play:
+                    GameStatus = GameState.Pause;
+                break;
+
+                case GameState.Pause:
+                    GameStatus = GameState.Play;
+                break;
+
+                default:
+                    break;
+            }
         }
 	}   
+
+    public void QuitGame() {
+        Application.Quit();
+    }
 }

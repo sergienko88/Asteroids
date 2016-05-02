@@ -7,7 +7,7 @@ public class ResumeGameButton : ElementGUI {
         base.Start();
         PressAction += () =>
         {
-            GameManager.PauseAction(false);
+            GameManager.instance.GameStatus = GameState.Play;
         };
     }
 }

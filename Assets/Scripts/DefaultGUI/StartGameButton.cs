@@ -7,7 +7,7 @@ public class StartGameButton : ElementGUI {
     {
         base.Start();
         PressAction += () => {
-            GameManager.GamePlay(true);    
+            GameManager.instance.GameStatus = GameState.Play;
         };
     }
 }

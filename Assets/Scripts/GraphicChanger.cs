@@ -32,13 +32,17 @@ public class GraphicChanger : MonoBehaviour {
                         GraphicObjects[GraphicType.Mesh] = children[i];
                     }
                     texture = (Texture2D)children[i].GetComponent<Renderer>().material.mainTexture;
+                    if(!texture) 
+                    {
+                        texture = new Texture2D(10, 10);
+                    }
                     sprite = Sprite.Create(
-                        (texture ? texture : new Texture2D(1, 1)),
-                        new Rect(0, 0, texture ? texture.width : 5, texture?texture.height:30),
+                        texture,
+                        new Rect(0, 0, texture.width ,texture.height),
                         new Vector2(0.5f, 0.5f)
                     );
-                }
-                if (children[i].name.ToLower().Contains(GraphicType.Sprite.ToString().ToLower()))
+            }
+            if (children[i].name.ToLower().Contains(GraphicType.Sprite.ToString().ToLower()))
                 {                    
                     if (!GraphicObjects.ContainsKey(GraphicType.Sprite))
                     {

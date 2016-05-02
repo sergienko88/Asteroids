@@ -5,8 +5,8 @@ public class GamePlayGUI: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GameManager.GamePlay += (state) => {
-            gameObject.SetActive(state);
+        GameManager.ChangeGameStatus += (state) => {
+            gameObject.SetActive(state == GameState.Play);
         };
         gameObject.SetActive(false);
 	}

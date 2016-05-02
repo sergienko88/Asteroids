@@ -23,11 +23,12 @@ public class SpaceShip : SpaceObject {
 	protected override void Start () {
         start_position = transform.position;
         isDamagedYet = false;
-        GameManager.GamePlay += (state) =>
+        GameManager.ChangeGameStatus += (state) => 
         {
-            gameObject.SetActive(state);
+            gameObject.SetActive(state == GameState.Play || state == GameState.Pause);
         };
-	}
+        gameObject.SetActive(false);
+    }
 
     public override bool Damage()
     {

@@ -7,8 +7,8 @@ public class ExitButton : ElementGUI
     protected override void Start()
     {
         base.Start();
-        PressAction += () => { 
-            Application.Quit();
+        PressAction += () => {
+            GameManager.instance.QuitGame();
         };
     }
 	

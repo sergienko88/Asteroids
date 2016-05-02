@@ -19,31 +19,32 @@ public class Generator : MonoBehaviour {
                 Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
             }));
         }
-        GameManager.GamePlay += (state) =>
-        {
-            switch (state)
-            {
-                case true:
-                    if (!isTest){
-                        System.Array.ForEach(GameObject.FindObjectsOfType<SpaceObject>(), so => {
-                            if(!(so is SpaceShip)){
-                                Destroy(so.gameObject);
-                            } 
-                        }); 
-                        Create(typeof(Asteroid), Random.Range(10, 15));
-                        StartCoroutine(Waiter(Random.Range(10f, 60f), null, () =>
-                        {
-                            Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
-                        }));
-                    }
-                break;
 
-                case false: break;
+        //GameManager.GamePlay += (state) =>
+        //{
+        //    switch (state)
+        //    {
+        //        case true:
+        //            if (!isTest){
+        //                System.Array.ForEach(GameObject.FindObjectsOfType<SpaceObject>(), so => {
+        //                    if(!(so is SpaceShip)){
+        //                        Destroy(so.gameObject);
+        //                    } 
+        //                }); 
+        //                Create(typeof(Asteroid), Random.Range(10, 15));
+        //                StartCoroutine(Waiter(Random.Range(10f, 60f), null, () =>
+        //                {
+        //                    Create(typeof(UFO), UnityEngine.Random.Range(1, 3));
+        //                }));
+        //            }
+        //        break;
 
-                default:
-                break;
-            }
-        };
+        //        case false: break;
+
+        //        default:
+        //        break;
+        //    }
+        //};
 	}
 
     void SpawnObject(System.Type type,int val=0)
