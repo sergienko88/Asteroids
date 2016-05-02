@@ -40,28 +40,10 @@ public class GameManager : MonoBehaviour {
 
         set
         {
-            gameStatus = value;
-            ChangeGameStatus(value);
-            switch (value)
-            {
-                case GameState.MainMenu:
-                    Time.timeScale = 1;
-                break;
-
-                case GameState.Play:
-                    Time.timeScale = 1;
-                break;
-
-                case GameState.Pause:
-                    Time.timeScale = 0;
-                break;
-
-                default:
-                    break;
-            }
+            SetGameState(value);
         }
     }
-
+    
     public static System.Action<int> UpdateScore;
     public static System.Action<int> UpdateHealth;
     public static System.Action<GraphicType> ChangeGraphicEvent;
@@ -70,8 +52,42 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
     public static System.Action<GameState> ChangeGameStatus;
 
-	// Use this for initialization
-	void Awake () {
+    public void SetGameState(int stateCode) {
+        try
+        {
+            SetGameState((GameState)stateCode);
+        }
+        catch (System.Exception)
+        {
+
+            throw;
+        }
+    }
+
+    public void SetGameState(GameState value) {
+        gameStatus = value;
+        ChangeGameStatus(value);
+        switch (value)
+        {
+            case GameState.MainMenu:
+                Time.timeScale = 1;
+                break;
+
+            case GameState.Play:
+                Time.timeScale = 1;
+                break;
+
+            case GameState.Pause:
+                Time.timeScale = 0;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // Use this for initialization
+    void Awake () {
         instance = this;
         ChangeGameStatus+=(status)=>{ };
         UpdateScore += (score) => { };
