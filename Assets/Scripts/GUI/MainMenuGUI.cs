@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GUISelector : MonoBehaviour {
+public class MainMenuGUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

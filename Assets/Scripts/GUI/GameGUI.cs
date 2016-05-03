@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GamePlayMenu : MenuGUI {
+public class GameGUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
         GameManager.ChangeGameStatus += (state) => {
-            gameObject.SetActive(state == GameState.Pause);
+            gameObject.SetActive(state == GameState.Play);
         };
         gameObject.SetActive(false);
-	}
 
+    }
 }

@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour {
             SetGameState(value);
         }
     }
-    
     public static System.Action<int> UpdateScore;
     public static System.Action<int> UpdateHealth;
     public static System.Action<GraphicType> ChangeGraphicEvent;
