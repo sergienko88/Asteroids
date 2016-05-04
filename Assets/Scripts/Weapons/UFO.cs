@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class UFO : SpaceObject{
-    static int objectCount = 0;
-    static int maxObjectCount = 5;
+    public static int objectCount = 0;
+    public static int maxObjectCount = 5;
 
     public override int ObjectCount
     {
@@ -17,25 +17,19 @@ public class UFO : SpaceObject{
         get { return UFO.maxObjectCount; }
         set { UFO.maxObjectCount = value; }
     }
-	// Use this for initialization
-	void Start () {
+    protected override void Start()
+    {
+        base.Start();
         RewardPoints = 50;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
 
     public override bool Damage()
     {
-        ObjectDestroyed(GetType(),RewardPoints);
-        objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
         Destroy(gameObject);
         return true;
     }
 
-    public override bool Damage(Transform Owner)
+    public override bool Damage(SpaceObject Owner)
     {
         if (Owner.GetComponent<SpaceShip>()&&!isDamagedYet)
         {
@@ -49,8 +43,13 @@ public class UFO : SpaceObject{
     {
         if (other.GetComponent<SpaceObject>())
         {
-            other.GetComponent<SpaceObject>().Damage(transform);
-            Damage(other.transform);
+            other.GetComponent<SpaceObject>().Damage(this);
+            Damage(other.GetComponent<SpaceObject>());
         }
+    }
+
+    void OnDestroy() {
+        ObjectDestroyed(this);
+        objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
     }
 }

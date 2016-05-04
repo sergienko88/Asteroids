@@ -92,11 +92,11 @@ public class GameManager : MonoBehaviour {
         UpdateScore += (score) => { };
         UpdateHealth += (health) => { };
         ChangeGraphicEvent += (types) => { };
-        SpaceObject.ObjectDestroyed += (type,points)=>{
+        SpaceObject.ObjectDestroyed += (obj)=>{
 
-            if (type != typeof(SpaceShip))
+            if (obj.GetType() != typeof(SpaceShip))
             {
-                Score += points;
+                Score += obj.RewardPoints;
                 UpdateScore(Score);
             }
             else

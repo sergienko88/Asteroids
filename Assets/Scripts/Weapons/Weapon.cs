@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Weapon : MonoBehaviour {
-    protected float cooldown_duration = 3f;
-    protected float cooldown = 0f;
+    public float cooldown_duration = 3f;
+    public float cooldown = 0f;
     protected bool isCooldown = false;
     protected bool isFire = false;
     protected List<Transform> WeaponMazzles = new List<Transform>();
     public WeaponType WeaponType = WeaponType.None;
+    public SpaceObject Owner;
 	// Use this for initialization
 	protected virtual void Start () {
         cooldown = cooldown_duration;
@@ -42,12 +43,12 @@ public class Weapon : MonoBehaviour {
         {
             if (isCooldown)
             {
-                if (cooldown > 0f)
+                if (cooldown < cooldown_duration)
                 {
-                    cooldown -= Time.deltaTime;
+                    cooldown += Time.deltaTime;
                 }
 
-                if (cooldown < 0)
+                if (cooldown > cooldown_duration)
                 {
                     cooldown = cooldown_duration;
                     isCooldown = false;
@@ -67,6 +68,7 @@ public class Weapon : MonoBehaviour {
     protected virtual void Fire()
     {
         isFire = true;
+        cooldown = 0;
     }
 
     WeaponType GetWeaponType(string type)

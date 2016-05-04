@@ -40,22 +40,14 @@ public class Asteroid : SpaceObject
 		if(life>0){
 			CreateFragments(UnityEngine.Random.Range(2,4));
 		}
-        if (!isFragment)
-        {
-            ObjectDestroyed(GetType(),RewardPoints);
-            objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
-        }
-        else
-        {
-            ObjectDestroyed(typeof(SpaceObject), (int)RewardPoints/2);
-        }
+        
 		Destroy(gameObject);
         return true;
 	}
 
-    public override bool Damage(Transform owner)
+    public override bool Damage(SpaceObject owner)
     {        
-        if (owner.GetComponent<SpaceShip>()&&!isDamagedYet)
+        if (owner && owner.GetComponent<SpaceShip>()&&!isDamagedYet)
         {
            isDamagedYet = true;
            return Damage();            
@@ -87,8 +79,16 @@ public class Asteroid : SpaceObject
 	void OnTriggerEnter2D(Collider2D other){
         if (other.GetComponent<SpaceObject>())
         {            
-            other.GetComponent<SpaceObject>().Damage(transform);
-            Damage(other.transform);
+            other.GetComponent<SpaceObject>().Damage(this);
+            Damage(other.GetComponent<SpaceObject>());
         }
      }
+
+     void OnDestroy() {
+        ObjectDestroyed(this);
+        if (!isFragment)
+        {
+            objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
+        }
+    }
 }

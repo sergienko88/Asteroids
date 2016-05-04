@@ -17,6 +17,14 @@ public class Laser : Weapon {
         base.Start();
         laser_line_render = gameObject.AddComponent<LineRenderer>();
         laser_line_render.SetWidth(.1f, .1f);
+        SpaceObject.ObjectDestroyed += (owner) =>
+        {
+            if (this.Owner == owner)
+            {                
+                laser_line_render.SetPosition(0, owner.transform.position);
+                laser_line_render.SetPosition(1, owner.transform.position);
+            }
+        };
     } 
 	
 	// Update is called once per frame
@@ -38,10 +46,11 @@ public class Laser : Weapon {
                 RenderLaser();
                 hits = Physics2D.RaycastAll(WeaponMazzles[current_laser_muzzle].position, ((Vector2)WeaponMazzles[current_laser_muzzle].up), laser_length);
                 Debug.DrawRay((Vector2)WeaponMazzles[current_laser_muzzle].position,(Vector2)WeaponMazzles[current_laser_muzzle].up*laser_length, Color.red, .1f);
-                System.Array.ForEach(hits, h => {           
-                    if (h.transform.GetComponent<SpaceObject>())
+                System.Array.ForEach(hits, h => {
+                    SpaceObject target = h.transform.GetComponent<SpaceObject>();
+                    if (target && target!=Owner)
                     {
-                        h.transform.GetComponent<SpaceObject>().Damage(transform);
+                        target.Damage(Owner);
                     }
                 });
             }
@@ -66,4 +75,5 @@ public class Laser : Weapon {
             current_laser_muzzle = 0;
         }
     }
+
 }

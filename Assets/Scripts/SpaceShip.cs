@@ -6,7 +6,7 @@ public class SpaceShip : SpaceObject {
     static int objectCount = 0;
     static int maxObjectCount = 1;
     Vector3 start_position = Vector3.zero;
-    
+    public static System.Action<SpaceShip> AppearShip;
     public virtual int ObjectCount
     {
         get { return SpaceShip.objectCount; }
@@ -25,8 +25,9 @@ public class SpaceShip : SpaceObject {
         isDamagedYet = false;
         GameManager.ChangeGameStatus += (state) => 
         {
-            gameObject.SetActive(state == GameState.Play || state == GameState.Pause);
+            gameObject.SetActive(state == GameState.Play || state == GameState.Pause);            
         };
+        AppearShip += (ship) => { };
         gameObject.SetActive(false);
     }
 
@@ -34,12 +35,12 @@ public class SpaceShip : SpaceObject {
     {
         transform.position = start_position;
         StartCoroutine(Wait());
-        ObjectDestroyed(GetType(),0);
+        ObjectDestroyed(this);
         objectCount = Mathf.Clamp(--objectCount, 0, maxObjectCount);
         return true;
     }
 
-    public override bool Damage(Transform Owner)
+    public override bool Damage(SpaceObject Owner)
     {     
         if (Owner != transform)
         {
@@ -66,5 +67,6 @@ public class SpaceShip : SpaceObject {
         GetComponent<Collider2D>().enabled = true;
         System.Array.ForEach(allmonos, am => am.enabled = true);
         System.Array.ForEach(renderers, r => r.enabled = true);
+        AppearShip(this);
     }
 }

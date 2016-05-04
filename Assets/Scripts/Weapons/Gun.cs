@@ -32,7 +32,7 @@ public class Gun : Weapon {
         isCooldown = true;
         for (int i = 0; i < WeaponMazzles.Count; i++)
         {
-            ((GameObject)Instantiate((GameObject)bullet_prefab, WeaponMazzles[i].position, WeaponMazzles[i].rotation)).GetComponent<Bullet>().Initialize(transform);
+            ((GameObject)Instantiate((GameObject)bullet_prefab, WeaponMazzles[i].position, WeaponMazzles[i].rotation)).GetComponent<Bullet>().Initialize(Owner);
         }
         
     }

@@ -12,9 +12,9 @@ public class UFOMoveController : MoveController {
         {
             target = playerShip.transform;
         }
-        speed = .003f;
+        speed = .006f;
         rotate_speed = 500f;
-        min_distance_to_target = Random.Range(2f, 5f);
+        min_distance_to_target = Random.Range(4f, 5f);
 	}
 
 	// Update is called once per frame
@@ -25,10 +25,10 @@ public class UFOMoveController : MoveController {
         acceleration += Time.deltaTime * speed;
         inertion += Time.deltaTime * speed;
         move_direction = target.position - transform.position;
-        inertion_direction = move_direction;        
+        inertion_direction = move_direction.normalized;        
         if (Vector3.Distance(transform.position, target.position) > min_distance_to_target)
         {
-            transform.position += inertion_direction * inertion + move_direction * acceleration;
+            transform.position += inertion_direction * inertion + move_direction.normalized * acceleration;
         }
         else
         {

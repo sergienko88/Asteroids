@@ -2,12 +2,12 @@
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
-    float speed = 5f;
+    float speed = 4f;
     Vector3 start_position = Vector3.zero;
     float max_distance = 5f;
     float current_distance = 0f;
     bool isMoved = true;
-    Transform owner = null;
+    SpaceObject owner = null;
 	// Use this for initialization
 
     void Awake()
@@ -53,7 +53,7 @@ public class Bullet : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!isMoved) return;
-        if (other.transform != owner)
+        if (other.GetComponent<SpaceObject>() != owner)
         {            
             if (other.GetComponent<SpaceObject>())
             {                
@@ -65,7 +65,7 @@ public class Bullet : MonoBehaviour {
         }
     }
 
-    public void Initialize(Transform Owner){
+    public void Initialize(SpaceObject Owner){
         owner = Owner;
     }
      

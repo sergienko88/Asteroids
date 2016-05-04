@@ -5,16 +5,18 @@ public class UFOWeaponController : WeaponController {
     float attack_time = 1f;    
     List<Transform> muzzles = new List<Transform>();
     Transform target = null;
-	// Use this for initialization
-	void Start () {
+    protected override void Awake()
+    {
+        base.Awake();
         FindTarget();
-        weapons.Add(gameObject.AddComponent<Gun>());
+        AddWeapon(WeaponType.Gun);
         selected_weapon_index = 0;
-        System.Array.ForEach(transform.root.GetComponentsInChildren<WeaponMuzzle>(),m=>{
-            muzzles.Add(m.transform);        
+        System.Array.ForEach(transform.root.GetComponentsInChildren<WeaponMuzzle>(), m =>
+        {
+            muzzles.Add(m.transform);
         });
         Invoke("Attack", attack_time);
-	}
+    }
 
     void FindTarget()
     {
